@@ -32,6 +32,13 @@ app.get("/listings", async (req, res) => {
     res.render("index", {AllListings});
 });
 
+// SHOW ROUTE
+app.get("/listings/:id", async (req, res) => {
+    let {id} = req.params;
+    let listing = await Listings.findOne({_id:id});
+    res.render("show",{listing});
+});
+
 app.listen(port,(req, res) => {
     console.log(`listening on ${port}`);
 });
