@@ -8,6 +8,7 @@ const path = require("path");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/listings"));
+app.use(express.urlencoded({extended:true}));
 
 async function main() {
     await mongoose.connect(MONGO_URL);
@@ -23,6 +24,18 @@ main()
 
 app.get("/", (req, res) => {
     res.send("Hi, I am root");
+});
+
+// NEW ROUTE
+app.get("/listings/new", (req, res) => {
+    res.render("new");
+});
+
+// CREATE ROUTE
+app.post("/listings",async (req, res) => {
+    let newListing = new Listings(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
 });
 
 // INDEX ROUTE
