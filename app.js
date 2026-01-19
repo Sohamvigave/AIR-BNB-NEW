@@ -28,7 +28,7 @@ main()
 });
 
 app.get("/", (req, res) => {
-    res.send("Hi, I am root");
+    res.render("home");
 });
 
 // NEW ROUTE
@@ -57,6 +57,7 @@ app.get("/listings/:id", async (req, res) => {
     res.render("show",{listing});
 });
 
+// EDIT ROUTE
 app.get("/listings/:id/edit",async (req, res) => {
     let {id} = req.params;
     let listing = await Listings.findById(id);

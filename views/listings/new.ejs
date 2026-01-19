@@ -1,31 +1,43 @@
 <% layout("../layouts/boilerplate") %>
 <body>
-    <h1>Create new listing</h1>
-    <form method="post" action="/listings">
-        <label for="title">title</label>
-        <input id="title" placeholder="enter title" name="listing[title]" type="text">
-        <br><br>
+    <div class="form-container">
+        <h1>Create New Listing</h1>
+        
+        <form class="form" method="post" action="/listings">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input id="title" placeholder="Enter listing title" name="listing[title]" type="text">
+            </div>
 
-        <label for="description">description</label>
-        <textarea id="description" name="listing[description]" placeholder="enter description"></textarea>
-        <br><br>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="listing[description]" placeholder="Enter description"></textarea>
+            </div>
 
-        <label for="image">image</label>
-        <input id="image" placeholder="enter image" name="listing[image]" type="text">
-        <br><br>
+            <div class="form-group">
+                <label for="image">Image URL</label>
+                <input id="image" placeholder="https://example.com/image.jpg" name="listing[image]" type="text">
+            </div>
 
-        <label for="price">price</label>
-        <input id="price" placeholder="enter title" name="listing[price]" type="number">
-        <br><br>
+            <div class="form-group">
+                <label for="price">Price ($)</label>
+                <input id="price" placeholder="Enter price" name="listing[price]" type="number" min="0" step="0.01">
+            </div>
 
-        <label for="location">location</label>
-        <input id="location" placeholder="enter title" name="listing[location]" type="text">
-        <br><br>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input id="location" placeholder="Enter location" name="listing[location]" type="text">
+            </div>
 
-        <label for="country">country</label>
-        <input id="country" placeholder="enter title" name="listing[country]" type="text">
-        <br><br>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input id="country" placeholder="Enter country" name="listing[country]" type="text">
+            </div>
 
-        <button>Add Listing</button>
-    </form>
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Create Listing</button>
+                <a href="/listings" class="cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
 </body>

@@ -6,10 +6,16 @@
     <title>Wanderlust</title>
     <link rel="stylesheet" href="/style.css">
 </head>
+<!-- In your boilerplate.ejs or layout file -->
 <body>
-    <h1>Wanderlust</h1>
-    <div class="container">
-        <%- body %>
-    </div>
+
+    <!-- Navbar -->
+    <%- include('../includes/navbar') %>
+
+    <!-- Main Content -->
+    <%- body %>
+
+    <!-- Footer -->
+    <%- include('../includes/footer') %>
 </body>
 </html>

@@ -1,0 +1,331 @@
+<% layout("../layouts/boilerplate") %>
+<body>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to Listings Hub</h1>
+            <p class="hero-subtitle">Discover amazing properties, connect with sellers, and find your perfect space</p>
+            <div class="hero-buttons">
+                <a href="/listings" class="hero-btn primary-btn">Browse Listings</a>
+                <a href="/listings/new" class="hero-btn secondary-btn">Create Listing</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="image-placeholder">
+                <span>🏠 Find Your Perfect Property</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <h2 class="section-title">Why Choose Listings Hub?</h2>
+        <p class="section-subtitle">Experience the best platform for property listings</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3 class="feature-title">Easy Search</h3>
+                <p class="feature-description">Find properties quickly with our powerful search and filtering options.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3 class="feature-title">Transparent Pricing</h3>
+                <p class="feature-description">Clear pricing with no hidden fees. See exactly what you're paying for.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">Mobile Friendly</h3>
+                <p class="feature-description">Access our platform from any device, anywhere, at any time.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3 class="feature-title">Secure Platform</h3>
+                <p class="feature-description">Your data and transactions are protected with industry-standard security.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section">
+        <h2 class="cta-title">Ready to Get Started?</h2>
+        <p class="cta-subtitle">Join thousands of satisfied users who found their perfect property through our platform</p>
+        <div class="cta-buttons">
+            <a href="/listings/new" class="cta-btn primary-btn">List Your Property</a>
+            <a href="/listings" class="cta-btn secondary-btn">Explore Properties</a>
+        </div>
+    </div>
+</body>
+
+<style>
+    /* ==========================================================================
+       HOME PAGE STYLES
+       ========================================================================== */
+
+    /* Hero Section */
+    .hero-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px;
+        margin-bottom: 4rem;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .hero-content {
+        padding: 2rem;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .hero-btn {
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+
+    .primary-btn {
+        background-color: white;
+        color: #667eea;
+    }
+
+    .primary-btn:hover {
+        background-color: #f8f9fa;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        text-decoration: none;
+        color: #667eea;
+    }
+
+    .secondary-btn {
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+    }
+
+    .secondary-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-3px);
+        text-decoration: none;
+        color: white;
+    }
+
+    .hero-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image-placeholder {
+        width: 100%;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        text-align: center;
+        border: 2px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    /* Features Section */
+    .features-section {
+        padding: 4rem 2rem;
+        text-align: center;
+        background-color: white;
+        border-radius: 12px;
+        margin-bottom: 4rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .section-subtitle {
+        font-size: 1.2rem;
+        color: #7f8c8d;
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .feature-card {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .feature-title {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .feature-description {
+        color: #7f8c8d;
+        line-height: 1.6;
+    }
+
+    /* Call to Action */
+    .cta-section {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+    }
+
+    .cta-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .cta-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .cta-btn {
+        padding: 1rem 2.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-section {
+            grid-template-columns: 1fr;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-buttons {
+            justify-content: center;
+        }
+
+        .features-section,
+        .cta-section {
+            padding: 2rem 1rem;
+        }
+
+        .section-title,
+        .cta-title {
+            font-size: 2rem;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cta-btn {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+        }
+
+        .hero-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
