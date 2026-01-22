@@ -9,6 +9,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
+const {listingSchema} = require("./schema.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/listings"));
@@ -34,6 +35,15 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
+const validateListing = (req, res, next) => {
+    let {error} = listingSchema.validate(req.body);
+    if(error) {
+        throw new expressError(400, error);
+    } else {
+        next();
+    }
+};
+
 // NEW ROUTE
 app.get("/listings/new", (req, res) => {
     res.render("new");
@@ -41,34 +51,42 @@ app.get("/listings/new", (req, res) => {
 
 // CREATE ROUTE - // there is no need to define wrapAsync error handling
 // because the latest version of express automatically handle it.
-app.post("/listings",wrapAsync(async (req, res) => {
-    let newListing = new Listings(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
-}));
+app.post(
+    "/listings", validateListing,
+    wrapAsync(async (req, res) => {
+        let result = listingSchema.validate(req.body);
+        console.log(result);
+        if(result.error) {
+            throw new expressError(400, result.error);
+        };
+        let newListing = new Listings(req.body.listing);
+        await newListing.save();
+        res.redirect("/listings");
+    })
+);
 
 // INDEX ROUTE
-app.get("/listings", async (req, res) => {
+app.get("/listings",  async (req, res) => {
     let AllListings = await Listings.find({});
     // console.log(Listing);
     res.render("index", {AllListings});
 });
 
 // SHOW ROUTE
-app.get("/listings/:id", async (req, res) => {
+app.get("/listings/:id", validateListing, async (req, res) => {
     let {id} = req.params;
     let listing = await Listings.findOne({_id:id});
     res.render("show",{listing});
 });
 
 // EDIT ROUTE
-app.get("/listings/:id/edit",async (req, res) => {
+app.get("/listings/:id/edit", validateListing, async (req, res) => {
     let {id} = req.params;
     let listing = await Listings.findById(id);
     res.render("edit", {listing});
 });
 
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", validateListing, async (req, res) => {
     let {id} = req.params;
     let data = req.body.listing;
     let editedListing = await Listings.findByIdAndUpdate(id, {...data}, {new:true, runValidators:true});
