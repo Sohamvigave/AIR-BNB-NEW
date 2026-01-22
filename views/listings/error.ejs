@@ -1,0 +1,37 @@
+<% layout("../layouts/boilerplate") %>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="card shadow-lg border-0" style="max-width: 500px; width: 100%;">
+    
+    <div class="card-body text-center">
+      <!-- Error Code -->
+      <h1 class="display-1 text-danger fw-bold">
+        <%= err.status || 500 %>
+      </h1>
+
+      <!-- Error Title -->
+      <h4 class="mb-3 text-secondary">
+        <%= err.name || "Error" %>
+      </h4>
+
+      <!-- Error Message -->
+      <p class="text-muted mb-4">
+        <%= err.message || "Something went wrong. Please try again later." %>
+      </p>
+
+      <!-- Optional Stack Trace (DEV only) -->
+      <% if (process.env.NODE_ENV === "development" && err.stack) { %>
+        <div class="alert alert-light text-start small">
+          <pre class="mb-0"><%= err.stack %></pre>
+        </div>
+      <% } %>
+
+      <!-- Action Buttons -->
+      <div class="d-flex justify-content-center gap-2">
+        <a href="/" class="btn btn-primary">Go Home</a>
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">Go Back</a>
+      </div>
+    </div>
+
+  </div>
+</div>

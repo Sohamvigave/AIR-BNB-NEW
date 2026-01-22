@@ -8,6 +8,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
+const expressError = require("./utils/expressError.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/listings"));
@@ -38,7 +39,8 @@ app.get("/listings/new", (req, res) => {
     res.render("new");
 });
 
-// CREATE ROUTE
+// CREATE ROUTE - // there is no need to define wrapAsync error handling
+// because the latest version of express automatically handle it.
 app.post("/listings",wrapAsync(async (req, res) => {
     let newListing = new Listings(req.body.listing);
     await newListing.save();
@@ -82,8 +84,14 @@ app.delete("/listings/:id", async (req, res) => {
     res.redirect("/listings");
 });
 
+// there is no need to throw custom expressError 
+// because latest version of express handle it bydefault
+app.all(/.*/, (req, res, next) => {
+    next(new expressError(404, "page not found"));
+});
+
 app.use((err, req, res, next) => {
-    res.send("something went wrong");
+    res.render("error.ejs", {err});
 });
 
 app.listen(port,(req, res) => {
