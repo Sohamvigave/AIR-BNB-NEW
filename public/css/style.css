@@ -611,3 +611,36 @@ ul {
     min-height: calc(100vh - 200px); /* Adjust based on footer height */
     padding-bottom: 2rem;
 }
+
+/* STYLING REVIEWS */
+.simple-review {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.simple-review hr {
+    margin: 20px 0;
+    border-color: #eee;
+}
+
+.simple-review label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.simple-review input[type="range"] {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.simple-review textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}

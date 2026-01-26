@@ -4,6 +4,7 @@ const port = 8080;
 const mongoose = require("mongoose");
 const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
 const Listings = require("./models/listings");
+const Review = require("./models/reviews.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
@@ -54,16 +55,30 @@ app.get("/listings/new", (req, res) => {
 app.post(
     "/listings", validateListing,
     wrapAsync(async (req, res) => {
-        let result = listingSchema.validate(req.body);
-        console.log(result);
-        if(result.error) {
-            throw new expressError(400, result.error);
-        };
         let newListing = new Listings(req.body.listing);
         await newListing.save();
         res.redirect("/listings");
     })
-);
+); 
+
+// Reviews
+app.post("/listings/:id/reviews", async (req, res) => {
+    let data = req.body;
+
+    let review = new Review({
+        comment: data.comment,
+        rating: data.range
+    });
+
+    let {id} = req.params;
+    let listing = await Listings.findById(`${id}`);
+
+    listing.reviews.push(review);
+    await review.save();
+    await listing.save();
+
+    res.render('show',{listing});
+});
 
 // INDEX ROUTE
 app.get("/listings",  async (req, res) => {

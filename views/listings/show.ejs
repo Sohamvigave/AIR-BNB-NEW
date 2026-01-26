@@ -1,72 +1,88 @@
 <% layout("../layouts/boilerplate") %>
-<body>
-    <div class="listing-show-container">
-        <h1>Listing Details</h1>
-        
-        <div class="listing-details">
-            <!-- Left column: Image -->
-            <div class="listing-image-section">
-                <% if (listing.image) { %>
-                    <img 
-                        src="<%= listing.image %>" 
-                        alt="<%= listing.title %>" 
-                        class="listing-main-image"
-                    >
-                <% } else { %>
-                    <div class="no-image-placeholder">
-                        <span>No Image Available</span>
-                    </div>
-                <% } %>
-            </div>
-            
-            <!-- Right column: Details -->
-            <div class="listing-info-section">
-                <div class="listing-info-item">
-                    <span class="listing-info-label">Title</span>
-                    <span class="listing-info-value"><%= listing.title %></span>
+
+<div class="listing-show-container">
+    <h1><%= listing.title %></h1>
+    
+    <div class="listing-details">
+        <!-- Left column: Image -->
+        <div class="listing-image-section">
+            <% if (listing.image) { %>
+                <img src="<%= listing.image %>" alt="<%= listing.title %>" class="listing-main-image">
+            <% } else { %>
+                <div class="no-image-placeholder">
+                    <span>No Image Available</span>
                 </div>
-                
-                <div class="listing-info-item">
-                    <span class="listing-info-label">Description</span>
-                    <p class="listing-info-value description-value"><%= listing.description %></p>
-                </div>
-                
-                <div class="listing-info-item">
-                    <span class="listing-info-label">Price</span>
-                    <span class="listing-info-value price-value">&#8377; <%= listing.price.toLocaleString("en-IN") %></span>
-                </div>
-                
-                <div class="listing-info-item">
-                    <span class="listing-info-label">Location</span>
-                    <span class="listing-info-value"><%= listing.location %></span>
-                </div>
-                
-                <div class="listing-info-item">
-                    <span class="listing-info-label">Country</span>
-                    <span class="listing-info-value"><%= listing.country %></span>
-                </div>
-                
-                <div class="listing-info-item">
-                    <span class="listing-info-label">Listing ID</span>
-                    <span class="listing-info-value"><%= listing.id %></span>
-                </div>
-            </div>
+            <% } %>
         </div>
         
-        <!-- Action Buttons -->
-        <div class="listing-actions">
-            <a href="/listings/<%= listing.id %>/edit" class="edit-listing-btn">
-                Edit Listing
-            </a>
+        <!-- Right column: Details -->
+        <div class="listing-info-section">
+            <div class="listing-info-item">
+                <span class="listing-info-label">Description</span>
+                <p class="listing-info-value description-value"><%= listing.description %></p>
+            </div>
             
-            <form method="post" action="/listings/<%= listing.id %>?_method=DELETE" style="margin: 0;">
-                <button type="submit" class="delete-listing-btn" onclick="return confirm('Are you sure you want to delete this listing?')">
-                    Delete Listing
-                </button>
-            </form>
+            <div class="listing-info-item">
+                <span class="listing-info-label">Price</span>
+                <span class="listing-info-value price-value">&#8377; <%= listing.price.toLocaleString("en-IN") %></span>
+            </div>
+            
+            <div class="listing-info-item">
+                <span class="listing-info-label">Location</span>
+                <span class="listing-info-value"><%= listing.location %></span>
+            </div>
+            
+            <div class="listing-info-item">
+                <span class="listing-info-label">Country</span>
+                <span class="listing-info-value"><%= listing.country %></span>
+            </div>
+            
+            <div class="listing-info-item">
+                <span class="listing-info-label">Listing ID</span>
+                <span class="listing-info-value"><%= listing.id %></span>
+            </div>
         </div>
-        
-        <!-- Back Button -->
-        <a href="/listings" class="back-btn">Back to All Listings</a>
     </div>
-</body>
+    
+    <div class="simple-review">
+        <!-- Add form-control class to inputs -->
+        <form class="form needs-validation" method="post" action="/listings/<%=listing.id%>/reviews" novalidate>
+            <div class="mb-3">
+                <label for="range" class="form-label">Rating</label>
+                <input type="range" min="1" max="5" id="range" name="range" class="form-range">
+            </div>
+            
+            <div class="mb-3">
+                <label for="comment" class="form-label">Comment</label>
+                <textarea placeholder="Enter comment" id="comment" rows="3" name="comment" class="form-control" required></textarea>
+                <div class="invalid-feedback">
+                    Comment is required
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-secondary">Submit</button>
+        </form>
+    </div>
+    
+    <hr>
+    <div>
+        <%= listing.reviews %>
+    </div>
+    <hr>
+    
+    <!-- Action Buttons -->
+    <div class="listing-actions">
+        <a href="/listings/<%= listing.id %>/edit" class="edit-listing-btn">
+            Edit Listing
+        </a>
+        
+        <form method="post" action="/listings/<%= listing.id %>?_method=DELETE" style="margin: 0;">
+            <button type="submit" class="delete-listing-btn" onclick="return confirm('Are you sure you want to delete this listing?')">
+                Delete Listing
+            </button>
+        </form>
+    </div>
+    
+    <!-- Back Button -->
+    <a href="/listings" class="back-btn">Back to All Listings</a>
+</div>
