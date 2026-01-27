@@ -83,7 +83,7 @@ app.post("/listings/:id/reviews", validateReview, async (req, res) => {
     await review.save();
     await listing.save();
 
-    res.render('show',{listing});
+    res.redirect(`/listings/${listing.id}`);
 });
 
 // INDEX ROUTE
@@ -96,7 +96,7 @@ app.get("/listings",  async (req, res) => {
 // SHOW ROUTE
 app.get("/listings/:id", validateListing, async (req, res) => {
     let {id} = req.params;
-    let listing = await Listings.findOne({_id:id});
+    let listing = await Listings.findOne({_id:id}).populate("reviews");
     res.render("show",{listing});
 });
 
