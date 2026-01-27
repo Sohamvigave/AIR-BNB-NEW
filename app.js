@@ -117,10 +117,17 @@ app.put("/listings/:id", validateListing, async (req, res) => {
 
 //DELETE ROUTE
 app.delete("/listings/:id", async (req, res) => {
-    let {id} = req.params;
-    let deletedListing = await Listings.findByIdAndDelete(id);
-    console.log(deletedListing);
+    await Listings.findByIdAndDelete(req.params.id);
     res.redirect("/listings");
+});
+
+app.delete("/listings/:id/reviews/:reviewId", async (req, res) => {
+    let {id, reviewId} = req.params;
+
+    await Listings.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+    
+    res.redirect(`/listings/${id}`);
 });
 
 // there is no need to throw custom expressError 

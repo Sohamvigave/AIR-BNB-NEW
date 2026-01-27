@@ -90,6 +90,14 @@
                                             month: 'short', 
                                             day: 'numeric' 
                                         }) %>
+
+                                        <!-- Delete button added here -->
+                                        <form class="d-inline ms-2" method="post" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+
                                     </div>
                                 </div>
                                 <p class="mb-0" style="font-size: 0.95rem;"><%= review.comment %></p>
@@ -119,6 +127,14 @@
                                             month: 'short', 
                                             day: 'numeric' 
                                         }) %>
+
+                                        <!-- Delete button added here -->
+                                        <form class="d-inline ms-2" method="post" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+
                                     </div>
                                 </div>
                                 <p class="mb-0" style="font-size: 0.95rem;"><%= review.comment %></p>
