@@ -48,13 +48,13 @@
         <!-- Add form-control class to inputs -->
         <form class="form needs-validation" method="post" action="/listings/<%=listing.id%>/reviews" novalidate>
             <div class="mb-3">
-                <label for="range" class="form-label">Rating</label>
-                <input type="range" min="1" max="5" id="range" name="range" class="form-range">
+                <label for="rating" class="form-label">Rating</label>
+                <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
             </div>
             
             <div class="mb-3">
                 <label for="comment" class="form-label">Comment</label>
-                <textarea placeholder="Enter comment" id="comment" rows="3" name="comment" class="form-control" required></textarea>
+                <textarea placeholder="Enter comment" id="comment" rows="3" name="review[comment]" class="form-control" required></textarea>
                 <div class="invalid-feedback">
                     Comment is required
                 </div>
