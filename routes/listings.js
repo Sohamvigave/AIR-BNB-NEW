@@ -17,7 +17,7 @@ const validateListing = (req, res, next) => {
 
 // CREATE ROUTE - 1
 router.get("/new", (req, res) => {
-    res.render("new");
+    res.render("listings/new");
 });
 
 // CREATE ROUTE - 2
@@ -33,20 +33,20 @@ router.post(
 // SHOW ROUTE - 1
 router.get("/",  async (req, res) => {
     let AllListings = await Listings.find({});
-    res.render("index", {AllListings});
+    res.render("listings/index", {AllListings});
 });
 
 // SHOW ROUTE - 2
 router.get("/:id", validateListing, async (req, res) => {
     let {id} = req.params;
     let listing = await Listings.findOne({_id:id}).populate("reviews");
-    res.render("show",{listing});
+    res.render("listings/show",{listing});
 });
 
 // EDIT ROUTE - 1
 router.get("/:id/edit", validateListing, async (req, res) => {
     let listing = await Listings.findById(req.params.id);
-    res.render("edit", {listing});
+    res.render("listings/edit", {listing});
 });
 
 // EDIT ROUTE - 2

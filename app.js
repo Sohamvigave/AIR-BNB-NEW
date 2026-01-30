@@ -12,17 +12,25 @@ const mongoose = require("mongoose");
 const expressError = require("./utils/expressError.js");
 
 const ejsMate = require("ejs-mate");
+const session = require("express-session");
 const methodOverride = require("method-override");
+
+const expressSession = {
+    secret: "mySuperSecretString",
+    resave: false,
+    saveUninitialized: true
+};
 
 app.engine('ejs', ejsMate);
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views/listings"));
+app.set("views", path.join(__dirname, "views"));
 
+app.use(session(expressSession));
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname, "public/css")));
 app.use(express.static(path.join(__dirname, "public/js")));
+app.use(express.static(path.join(__dirname, "public/css")));
 
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
@@ -41,7 +49,7 @@ main()
 
 // HOME PAGE
 app.get("/", (req, res) => {
-    res.render("home");
+    res.render("listings/home.ejs");
 });
 
 // HANDLE ALL ROUTES
@@ -51,7 +59,7 @@ app.all(/.*/, (req, res, next) => {
 
 // ERROR HANDLING
 app.use((err, req, res, next) => {
-    res.render("error.ejs", {err});
+    res.render("listings/error.ejs", {err});
 });
 
 // SERVER STARTING ROUTE
