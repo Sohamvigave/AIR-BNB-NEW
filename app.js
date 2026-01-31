@@ -12,6 +12,7 @@ const mongoose = require("mongoose");
 const expressError = require("./utils/expressError.js");
 
 const ejsMate = require("ejs-mate");
+const flash = require("connect-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
 
@@ -31,11 +32,17 @@ app.engine('ejs', ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(flash());
 app.use(session(expressSession));
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, "public/js")));
 app.use(express.static(path.join(__dirname, "public/css")));
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    next();
+});
 
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
