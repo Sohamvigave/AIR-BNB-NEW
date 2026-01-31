@@ -38,16 +38,26 @@ router.get("/",  async (req, res) => {
 });
 
 // SHOW ROUTE - 2
-router.get("/:id", validateListing, async (req, res) => {
+router.get("/:id", validateListing, wrapAsync(async (req, res) => {
     let {id} = req.params;
     let listing = await Listings.findOne({_id:id}).populate("reviews");
-    res.render("listings/show",{listing});
-});
+    if (!listing) {
+        req.flash("error", "listing you requested for does not exist!");
+        res.redirect("/listings");
+    } else {
+        res.render("listings/show",{listing});
+    }        
+}));
 
 // EDIT ROUTE - 1
 router.get("/:id/edit", validateListing, async (req, res) => {
     let listing = await Listings.findById(req.params.id);
-    res.render("listings/edit", {listing});
+    if (!listing) {
+        req.flash("error", "listing you want to update for does not exist!");
+        res.redirect("/listings");
+    } else {
+        res.render("listings/edit", {listing});
+    }
 });
 
 // EDIT ROUTE - 2
@@ -56,6 +66,7 @@ router.put("/:id", validateListing, async (req, res) => {
     let data = req.body.listing;
     let editedListing = await Listings.findByIdAndUpdate(id, {...data}, {new:true, runValidators:true});
     console.log(editedListing);
+    req.flash("success", "Listing was updated!");
     res.redirect(`/listings/${id}`);
 });
 
