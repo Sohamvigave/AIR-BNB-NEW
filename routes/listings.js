@@ -26,7 +26,7 @@ router.post(
     wrapAsync(async (req, res) => {
         let newListing = new Listings(req.body.listing);
         await newListing.save();
-        req.flash("success", "listing was created!");
+        req.flash("success", "New listing was created!");
         res.redirect("/listings");
     })
 ); 
@@ -62,6 +62,7 @@ router.put("/:id", validateListing, async (req, res) => {
 //DELETE ROUTE
 router.delete("/:id", async (req, res) => {
     await Listings.findByIdAndDelete(req.params.id);
+    req.flash("success", "Listing was deleted!");
     res.redirect("/listings");
 });
 
