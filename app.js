@@ -45,6 +45,8 @@ app.use((req, res, next) => {
     next();
 });
 
+const User = require("./models/users.js");
+
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
 
