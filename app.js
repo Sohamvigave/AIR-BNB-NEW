@@ -4,12 +4,15 @@ const port = 8080;
 const app = express();
 const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
 
+const passport = require("passport");
 const reviews = require("./routes/reviews.js");
+const localStrategy = require("passport-local");
 const listings = require("./routes/listings.js");
 
 const path = require("path");
 const mongoose = require("mongoose");
 const expressError = require("./utils/expressError.js");
+const User = require("./models/users.js");
 
 const ejsMate = require("ejs-mate");
 const flash = require("connect-flash");
@@ -33,19 +36,24 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(flash());
+app.use(passport.session());
+app.use(passport.initialize());
 app.use(session(expressSession));
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, "public/js")));
 app.use(express.static(path.join(__dirname, "public/css")));
 
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     next();
 });
-
-const User = require("./models/users.js");
 
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
