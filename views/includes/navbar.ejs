@@ -7,6 +7,13 @@
     <div class="navbar-links">
         <a href="/listings">All Listings</a>
         <a href="/listings/new">Add New Listing</a>
-        <!-- Add more links as needed -->
+
+        <% if (!currentUser) { %>
+            <a href="/users/login">Login</a>
+            <a href="/users/register">Signup</a>
+        <% } else { %>
+            <a href="/users/logout">Logout</a>
+            <!-- Add more links as needed -->
+        <% } %>
     </div>
 </nav>

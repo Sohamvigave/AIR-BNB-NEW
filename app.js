@@ -8,6 +8,7 @@ const passport = require("passport");
 const reviews = require("./routes/reviews.js");
 const localStrategy = require("passport-local");
 const listings = require("./routes/listings.js");
+const users = require("./routes/users.js");
 
 const path = require("path");
 const mongoose = require("mongoose");
@@ -35,10 +36,10 @@ app.engine('ejs', ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(flash());
-app.use(passport.session());
-app.use(passport.initialize());
 app.use(session(expressSession));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, "public/js")));
@@ -52,9 +53,11 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currentUser = req.user;
     next();
 });
 
+app.use("/users", users);
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
 
@@ -72,6 +75,7 @@ main()
 
 // HOME PAGE
 app.get("/", (req, res) => {
+    console.log(req.session);
     res.render("listings/home.ejs");
 });
 

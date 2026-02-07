@@ -4,6 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const router = express.Router();
 const Listings = require("../models/listings.js");
 const expressError = require("../utils/expressError.js");
+const {isLoggedIn} = require("../middleware.js");
 
 // SERVER SIDE VALIDATION
 const validateListing = (req, res, next) => {
@@ -16,7 +17,7 @@ const validateListing = (req, res, next) => {
 };
 
 // CREATE ROUTE - 1
-router.get("/new", (req, res) => {
+router.get("/new",isLoggedIn, (req, res) => {
     res.render("listings/new");
 });
 
@@ -50,7 +51,7 @@ router.get("/:id", validateListing, wrapAsync(async (req, res) => {
 }));
 
 // EDIT ROUTE - 1
-router.get("/:id/edit", validateListing, async (req, res) => {
+router.get("/:id/edit",isLoggedIn, validateListing, async (req, res) => {
     let listing = await Listings.findById(req.params.id);
     if (!listing) {
         req.flash("error", "listing you want to update for does not exist!");
@@ -71,7 +72,7 @@ router.put("/:id", validateListing, async (req, res) => {
 });
 
 //DELETE ROUTE
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",isLoggedIn, async (req, res) => {
     await Listings.findByIdAndDelete(req.params.id);
     req.flash("success", "Listing was deleted!");
     res.redirect("/listings");

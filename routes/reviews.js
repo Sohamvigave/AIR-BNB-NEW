@@ -4,6 +4,7 @@ const Listings = require("../models/listings.js");
 const router = express.Router({mergeParams: true});
 const { reviewSchema } = require("../schema.js");
 const expressError = require("../utils/expressError.js");
+const {isLoggedIn} = require("../middleware.js");
 
 // SERVER SIDE VALIDATION 
 const validateReview = (req, res, next) => {
@@ -18,7 +19,7 @@ const validateReview = (req, res, next) => {
 };
 
 // CREATE ROUTE 
-router.post("/", validateReview, async (req, res) => {
+router.post("/",isLoggedIn, validateReview, async (req, res) => {
 
     let review = new Review(req.body.review);
 
@@ -35,7 +36,7 @@ router.post("/", validateReview, async (req, res) => {
 });
 
 // DELETE ROUTE
-router.delete("/:reviewId", async (req, res) => {
+router.delete("/:reviewId",isLoggedIn, async (req, res) => {
 
     let {id, reviewId} = req.params;
 
