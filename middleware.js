@@ -1,8 +1,9 @@
 function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated()) {
-        return next();
+    if(!req.isAuthenticated()) {
+        req.flash("error", "you must be logged in!");
+        return res.redirect("/users/login");
     }
-    res.status(401).send("you must be logged in");
+    next();
 }
 
 module.exports = {isLoggedIn};

@@ -75,7 +75,7 @@ main()
 
 // HOME PAGE
 app.get("/", (req, res) => {
-    console.log(req.session);
+    // console.log(req.session);
     res.render("listings/home.ejs");
 });
 

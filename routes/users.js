@@ -14,11 +14,17 @@ router.post("/register", async (req, res) => {
     const newUser = User({email, username});
     
     const registeredUser = await User.register(newUser, password);
-  
-    res.status(201).send("User registered successfully!");
+
+    req.login(registeredUser, (err) => {
+      if (err) return next(err);
+
+      req.flash("success", "Welcome to Wanderlust!");
+      res.redirect("/listings");
+    });
 
   } catch(err) {
-    res.status(400).send(err.message);
+    req.flash("error", err.message);
+    res.redirect("/users/register");
   }
 });
 
@@ -28,10 +34,12 @@ router.get("/login", (req, res) => {
 
 router.post("/login",
   passport.authenticate("local", {
-    failureMessage: true
+    failureRedirect: "/users/login",
+    failureFlash: true,
   }),
   (req, res) => {
-    res.send("login successfully");
+    req.flash("success", "Welcome back to wanderlust!");
+    res.redirect("/listings");
   }
 );
 
@@ -40,7 +48,8 @@ router.get("/logout", (req, res, next) => {
     if(err) {
       return next(err);
     }
-    res.send("Logged out successfully");
+    req.flash("success", "you are logged out!");
+    res.redirect("/listings");
   });
 });
 
