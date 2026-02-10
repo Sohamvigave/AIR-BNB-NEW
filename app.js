@@ -5,10 +5,10 @@ const app = express();
 const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
 
 const passport = require("passport");
-const reviews = require("./routes/reviews.js");
+const reviewRoutes = require("./routes/reviews.js");
 const localStrategy = require("passport-local");
-const listings = require("./routes/listings.js");
-const users = require("./routes/users.js");
+const listingRoutes = require("./routes/listings.js");
+const userRoutes = require("./routes/users.js");
 
 const path = require("path");
 const mongoose = require("mongoose");
@@ -57,9 +57,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/users", users);
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+app.use("/users", userRoutes);
+app.use("/listings", listingRoutes);
+app.use("/listings/:id/reviews", reviewRoutes);
 
 async function main() {
     await mongoose.connect(MONGO_URL);

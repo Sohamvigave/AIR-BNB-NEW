@@ -1,51 +1,13 @@
 const express = require("express");
-const Review = require("../models/reviews.js");
-const Listings = require("../models/listings.js");
 const router = express.Router({mergeParams: true});
-const { reviewSchema } = require("../schema.js");
-const expressError = require("../utils/expressError.js");
-const {isLoggedIn} = require("../middleware.js");
+const {isLoggedIn, validateReview} = require("../middlewares/middleware.js");
+const reviewController = require("../controllers/reviews.js");
 
-// SERVER SIDE VALIDATION 
-const validateReview = (req, res, next) => {
-
-    let {error} = reviewSchema.validate(req.body);
-
-    if(error) {
-        throw new expressError(400, error);
-    } else {
-        next();
-    }
-};
 
 // CREATE ROUTE 
-router.post("/",isLoggedIn, validateReview, async (req, res) => {
-
-    let review = new Review(req.body.review);
-
-    let listing = await Listings.findById(req.params.id);
-    
-    listing.reviews.push(review);
-    
-    await review.save();
-    await listing.save();
-
-    req.flash("success", "New review was created!");
-
-    res.redirect(`/listings/${listing.id}`);
-});
+router.post("/",isLoggedIn, validateReview, reviewController.createReview);
 
 // DELETE ROUTE
-router.delete("/:reviewId",isLoggedIn, async (req, res) => {
-
-    let {id, reviewId} = req.params;
-
-    await Listings.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
-    await Review.findByIdAndDelete(reviewId);
-    
-    req.flash("success", "Review was deleted!");
-
-    res.redirect(`/listings/${id}`);
-});
+router.delete("/:reviewId",isLoggedIn, reviewController.deleteReview);
 
 module.exports = router;
