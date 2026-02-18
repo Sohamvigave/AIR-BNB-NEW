@@ -1,8 +1,9 @@
+require('dotenv').config();
 const express = require("express");
 
-const port = 8080;
+const port = process.env.PORT || 3000;
 const app = express();
-const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const passport = require("passport");
 const reviewRoutes = require("./routes/reviews.js");
@@ -20,10 +21,12 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
 
+app.set("trust proxy", 1);
+
 const expressSession = {
-    secret: "mySuperSecretString",
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -42,8 +45,8 @@ app.use(passport.session());
 app.use(flash());
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname, "public/js")));
-app.use(express.static(path.join(__dirname, "public/css")));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 passport.use(new localStrategy(User.authenticate()));
 
@@ -62,16 +65,16 @@ app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
 
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(MONGODB_URI);
 };
 
 main()
 .then(res => {
-    console.log("connectio successful");
+    console.log("connection successful");
 })
 .catch(err => {
     console.log(err);
-});
+}); 
 
 // HOME PAGE
 app.get("/", (req, res) => {
@@ -86,7 +89,8 @@ app.all(/.*/, (req, res, next) => {
 
 // ERROR HANDLING
 app.use((err, req, res, next) => {
-    res.render("listings/error.ejs", {err});
+    const {statusCode = 500, message = "something went wrong"} = err;
+    res.status(statusCode).render("listings/error.ejs", {err});
 });
 
 // SERVER STARTING ROUTE
