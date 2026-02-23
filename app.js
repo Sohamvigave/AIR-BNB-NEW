@@ -64,18 +64,6 @@ app.use("/users", userRoutes);
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
 
-async function main() {
-    await mongoose.connect(MONGODB_URI);
-};
-
-main()
-.then(res => {
-    console.log("connection successful");
-})
-.catch(err => {
-    console.log(err);
-}); 
-
 // HOME PAGE
 app.get("/", (req, res) => {
     // console.log(req.session);
@@ -94,6 +82,18 @@ app.use((err, req, res, next) => {
 });
 
 // SERVER STARTING ROUTE
-app.listen(port,(req, res) => {
-    console.log(`listening on ${port}`);
-});
+async function startServer() {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log("DB Connected ✅");
+
+        app.listen(port, () => {
+            console.log(`Server running on port ${port}`);
+        });
+
+    } catch (err) {
+        console.log("DB Connection Error ❌", err);
+    }
+}
+
+startServer();
